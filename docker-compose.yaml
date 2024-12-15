@@ -1,0 +1,44 @@
+services:
+  telegram_bot:
+    build:
+      context: .
+      dockerfile: ci/telegram_bot/Dockerfile
+    networks:
+      - chat
+    environment:
+      - TELEGRAM_BOT_TOKEN=your-token
+
+  websocket_chat:
+    build:
+      context: .
+      dockerfile: ci/websocket_chat/Dockerfile
+    networks:
+      - chat
+    ports:
+      - "8000:8000"
+
+  core_bot:
+    build:
+      context: .
+      dockerfile: ci/core_bot/Dockerfile
+    networks:
+      - chat
+
+  redis:
+    image: redis:7.4
+    networks:
+      - chat
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server"]
+
+
+networks:
+  chat:
+    driver: bridge
+
+volumes:
+  redis-data:
+    external: true

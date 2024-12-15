@@ -1,0 +1,4 @@
+fastapi==0.115.6  # API
+redis==5.2.1  # pub/sub
+uvicorn==0.33.0  # ASGI web server
+websockets==14.1  # websoket chats
